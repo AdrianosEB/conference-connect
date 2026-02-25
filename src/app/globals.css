@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&family=Outfit:wght@300..700&display=swap');
+
+:root {
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #f8fafc;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white transition-all duration-200;
+    background: linear-gradient(135deg, #4263eb 0%, #5c7cfa 100%);
+    box-shadow: 0 2px 8px rgba(66, 99, 235, 0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(66, 99, 235, 0.4);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium transition-all duration-200 border-2;
+    border-color: #e2e8f0;
+    color: #334155;
+  }
+  .btn-secondary:hover {
+    border-color: #4263eb;
+    color: #4263eb;
+    background: #f0f4ff;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-medium text-white transition-all duration-200;
+    background: linear-gradient(135deg, #e53e3e 0%, #f56565 100%);
+  }
+
+  .card {
+    @apply bg-white rounded-2xl p-6 transition-all duration-200;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  }
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-800 transition-all duration-200 outline-none;
+    font-family: var(--font-body);
+  }
+  .input-field:focus {
+    @apply border-brand-500;
+    box-shadow: 0 0 0 3px rgba(66, 99, 235, 0.1);
+  }
+  .input-field::placeholder {
+    @apply text-gray-400;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+  .badge-blue {
+    @apply badge;
+    background: #dbe4ff;
+    color: #364fc7;
+  }
+  .badge-amber {
+    @apply badge;
+    background: #fff3cd;
+    color: #92400e;
+  }
+  .badge-green {
+    @apply badge;
+    background: #d1fae5;
+    color: #065f46;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Page transitions */
+.page-enter {
+  animation: fadeSlideUp 0.4s ease-out;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #4263eb, #748ffc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}

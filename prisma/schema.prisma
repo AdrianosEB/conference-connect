@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  profile            Profile?
+  resume             Resume?
+  sentConnections    ConnectionRequest[] @relation("SentConnections")
+  receivedConnections ConnectionRequest[] @relation("ReceivedConnections")
+  messages           Message[]
+  posts              Post[]
+  consentGiven       Boolean  @default(false)
+}
+
+model Profile {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  title       String  @default("")
+  company     String  @default("")
+  industry    String  @default("")
+  interests   String  @default("")
+  linkedinUrl String  @default("")
+  summary     String  @default("")
+  skillsJson  String  @default("[]")
+  keywordsJson String @default("[]")
+  avatarUrl   String  @default("")
+  vectorText  String  @default("")
+  embeddingJson String @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Resume {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileUrl       String
+  fileName      String   @default("")
+  extractedText String   @default("")
+  embeddingJson String   @default("")
+  createdAt     DateTime @default(now())
+}
+
+model ConnectionRequest {
+  id         String   @id @default(cuid())
+  fromUserId String
+  toUserId   String
+  status     String   @default("pending") // pending | accepted | declined
+  fromUser   User     @relation("SentConnections", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser     User     @relation("ReceivedConnections", fields: [toUserId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([fromUserId, toUserId])
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  threadKey  String   // sorted pair of user IDs: "id1_id2"
+  fromUserId String
+  fromUser   User     @relation(fields: [fromUserId], references: [id], onDelete: Cascade)
+  body       String
+  createdAt  DateTime @default(now())
+
+  @@index([threadKey, createdAt])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  body      String
+  linkUrl   String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
